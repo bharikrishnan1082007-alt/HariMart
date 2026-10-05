@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order | HariMart</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .tracking-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            margin: 2rem 0 4rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Interactive Visual Timeline */
+        .stepper-timeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin: 2.5rem 0 3.5rem;
+            padding: 0 1rem;
+        }
+
+        .stepper-timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 5%;
+            width: 90%;
+            height: 4px;
+            background: #E2E8F0;
+            z-index: 1;
+        }
+
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .step-icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-full);
+            background: #E2E8F0;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 4px solid #FFFFFF;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .timeline-step.completed .step-icon-circle {
+            background: var(--primary);
+            color: #FFFFFF;
+        }
+
+        .timeline-step.active .step-icon-circle {
+            background: var(--accent-amber);
+            color: var(--secondary);
+            animation: pulse 1.5s infinite;
+        }
+
+        .step-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        .timeline-step.completed .step-title,
+        .timeline-step.active .step-title {
+            color: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .stepper-timeline {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding-left: 2rem;
+            }
+            .stepper-timeline::before {
+                top: 0;
+                left: 36px;
+                width: 4px;
+                height: 100%;
+            }
+            .timeline-step {
+                flex-direction: row;
+                gap: 1rem;
+            }
+            .step-title {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-top">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-badge">H</div>
+                    <div class="brand-name">Hari<span>Mart</span></div>
+                </a>
+
+                <div class="header-actions">
+                    <div id="header-auth-container"></div>
+                    <a href="account.html?tab=orders" class="header-action-item">
+                        <span style="font-size: 1.2rem;">📦</span>
+                        <div class="header-action-text">
+                            <span style="font-size: 0.7rem; color: var(--text-muted); display:block;">My</span>
+                            <span style="font-size: 0.85rem; font-weight: 700;">Orders</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" id="tracking-main-content">
+        <div class="tracking-card">
+            <!-- Order Header -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem;">
+                <div>
+                    <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em;">Shipment Status</span>
+                    <h1 style="font-size: 1.6rem; color: var(--secondary); font-weight: 800; margin: 0.2rem 0;">
+                        Order #<span id="track-order-num">...</span>
+                    </h1>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">
+                        Placed on <span id="track-order-date">...</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span id="track-order-status-badge" class="status-pill placed">PLACED</span>
+                    <button type="button" id="cancel-order-btn" style="display: none; background: #FEE2E2; color: #991B1B; border: 1px solid #F87171; border-radius: var(--radius-sm); padding: 0.45rem 0.85rem; font-size: 0.8rem; font-weight: 700; cursor: pointer;">
+                        Cancel Order
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stepper Timeline -->
+            <div id="tracking-stepper-wrap">
+                <div class="stepper-timeline">
+                    <div class="timeline-step" id="step-placed">
+                        <div class="step-icon-circle">📝</div>
+                        <div class="step-title">Order Placed</div>
+                    </div>
+                    <div class="timeline-step" id="step-confirmed">
+                        <div class="step-icon-circle">✔</div>
+                        <div class="step-title">Confirmed</div>
+                    </div>
+                    <div class="timeline-step" id="step-packed">
+                        <div class="step-icon-circle">📦</div>
+                        <div class="step-title">Packed</div>
+                    </div>
+                    <div class="timeline-step" id="step-shipped">
+                        <div class="step-icon-circle">🚚</div>
+                        <div class="step-title">Shipped</div>
+                    </div>
+                    <div class="timeline-step" id="step-out_for_delivery">
+                        <div class="step-icon-circle">🛵</div>
+                        <div class="step-title">Out For Delivery</div>
+                    </div>
+                    <div class="timeline-step" id="step-delivered">
+                        <div class="step-icon-circle">🏠</div>
+                        <div class="step-title">Delivered</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipment & Items Breakdown -->
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2.5rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
+                <!-- Left: Items -->
+                <div>
+                    <h3 style="font-size: 1.15rem; color: var(--secondary); margin-bottom: 1rem;">Items In This Shipment</h3>
+                    <div id="track-order-items">
+                        <!-- Populated via orders.js -->
+                    </div>
+                </div>
+
+                <!-- Right: Delivery & Payment Details -->
+                <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; height: fit-content;">
+                    <h4 style="font-size: 0.95rem; color: var(--secondary); margin-bottom: 0.5rem;">Delivery Destination</h4>
+                    <p id="track-shipping-address" style="color: var(--text-secondary); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.25rem;">
+                        Loading address...
+                    </p>
+
+                    <h4 style="font-size: 0.95rem; color: var(--secondary); margin-bottom: 0.5rem;">Payment Method</h4>
+                    <p id="track-payment-method" style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">
+                        Loading payment...
+                    </p>
+
+                    <h4 style="font-size: 0.95rem; color: var(--secondary); margin-bottom: 0.75rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">Payment Summary</h4>
+                    
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; color: var(--text-secondary);">
+                        <span>Subtotal</span>
+                        <strong id="track-subtotal">₹0.00</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; color: var(--primary);">
+                        <span>Promotional Discount</span>
+                        <span id="track-discount">-₹0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.6rem; color: var(--text-secondary);">
+                        <span>Delivery Fee</span>
+                        <span id="track-delivery">₹0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 800; color: var(--secondary); border-top: 1px dashed var(--border-color); padding-top: 0.6rem;">
+                        <span>Total Paid</span>
+                        <span id="track-final-total">₹0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                &copy; 2026 HariMart E-Commerce Platform. All rights reserved. Made with ❤️ in Bharat.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-nav">
+        <div class="mobile-nav-grid">
+            <a href="index.html" class="mobile-nav-item">
+                <span class="mobile-nav-icon">🏠</span>
+                <span>Home</span>
+            </a>
+            <a href="products.html" class="mobile-nav-item">
+                <span class="mobile-nav-icon">🛍️</span>
+                <span>Categories</span>
+            </a>
+            <a href="account.html?tab=wishlist" class="mobile-nav-item">
+                <span class="mobile-nav-icon">❤️</span>
+                <span>Wishlist</span>
+            </a>
+            <a href="account.html?tab=orders" class="mobile-nav-item active">
+                <span class="mobile-nav-icon">📦</span>
+                <span>Orders</span>
+            </a>
+            <a href="cart.html" class="mobile-nav-item">
+                <span class="mobile-nav-icon">🛒</span>
+                <span>Cart</span>
+                <span class="mobile-badge cart-count-badge" style="display: none;">0</span>
+            </a>
+            <a href="account.html" class="mobile-nav-item">
+                <span class="mobile-nav-icon">👤</span>
+                <span>Account</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/orders.js"></script>
+</body>
+</html>

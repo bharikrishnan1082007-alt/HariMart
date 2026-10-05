@@ -1,0 +1,247 @@
+/* ==========================================================================
+   HariMart - Responsive Styling (Desktop, Tablet, Mobile)
+   ========================================================================== */
+
+/* Mobile Bottom Navigation Bar */
+.mobile-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background-color: #FFFFFF;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+    padding: 0.35rem 0.5rem;
+}
+
+.mobile-nav-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.35rem;
+    position: relative;
+    transition: var(--transition);
+}
+
+.mobile-nav-item.active, .mobile-nav-item:hover {
+    color: var(--primary);
+}
+
+.mobile-nav-icon {
+    font-size: 1.25rem;
+}
+
+.mobile-badge {
+    position: absolute;
+    top: 2px;
+    right: 6px;
+    background-color: var(--accent-amber);
+    color: var(--secondary);
+    font-size: 0.65rem;
+    font-weight: 800;
+    border-radius: var(--radius-full);
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+}
+
+/* Tablet & Smaller Desktops (max-width: 1024px) */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .hero-slide {
+        padding: 2rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+    
+    .admin-sidebar {
+        width: 80px;
+    }
+    
+    .admin-sidebar .brand-name,
+    .admin-sidebar .admin-nav-link span {
+        display: none;
+    }
+    
+    .admin-main {
+        margin-left: 80px;
+    }
+}
+
+/* Mobile Devices (max-width: 768px) */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 60px; /* Offset for sticky mobile bottom navigation */
+    }
+    
+    .mobile-bottom-nav {
+        display: block;
+    }
+
+    .header-top {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .brand-name {
+        font-size: 1.35rem;
+    }
+
+    .location-btn {
+        display: none; /* Hidden on small screens to save header real estate */
+    }
+
+    .header-search {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .search-cat-select {
+        display: none;
+    }
+
+    .header-actions .header-action-text {
+        display: none;
+    }
+
+    .cat-nav-bar {
+        font-size: 0.8rem;
+    }
+
+    .hero-section {
+        padding: 0.75rem 0 1.25rem;
+    }
+
+    .hero-slider-container {
+        min-height: 250px;
+    }
+
+    .hero-slide {
+        padding: 1.5rem 1rem;
+        min-height: 250px;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-desc {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+
+    .btn-hero {
+        font-size: 0.85rem;
+        padding: 0.6rem 1.25rem;
+    }
+
+    .category-circles-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+    }
+
+    .cat-img-wrapper {
+        width: 68px;
+        height: 68px;
+    }
+
+    .cat-circle-name {
+        font-size: 0.75rem;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .product-info {
+        padding: 0.75rem;
+    }
+
+    .product-title {
+        font-size: 0.85rem;
+        height: 2.3rem;
+    }
+
+    .final-price {
+        font-size: 1.05rem;
+    }
+
+    .card-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .trust-badges-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* Admin Mobile Adaptation */
+    .admin-layout {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+    }
+
+    .admin-sidebar .admin-nav {
+        display: flex;
+        overflow-x: auto;
+        padding: 0.5rem;
+    }
+
+    .admin-sidebar .admin-brand,
+    .admin-sidebar .admin-nav-link span {
+        display: inline;
+    }
+
+    .admin-main {
+        margin-left: 0;
+        padding: 1rem;
+    }
+}
+
+/* Small Phones (max-width: 480px) */
+@media (max-width: 480px) {
+    .category-circles-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .trust-badges-grid {
+        grid-template-columns: 1fr;
+    }
+}

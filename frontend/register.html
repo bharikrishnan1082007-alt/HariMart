@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | HariMart</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .auth-page-wrap {
+            min-height: calc(100vh - 120px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 1rem;
+        }
+
+        .auth-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-top" style="justify-content: center;">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-badge">H</div>
+                    <div class="brand-name">Hari<span>Mart</span></div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="auth-page-wrap">
+        <div class="auth-card">
+            <h1 style="font-size: 1.6rem; color: var(--secondary); font-weight: 800; margin-bottom: 0.35rem;">Create Your Account</h1>
+            <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem;">Join HariMart to enjoy express deliveries and exclusive member deals</p>
+
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" id="reg-name" class="form-input" placeholder="e.g. Ramesh Kumar" required minlength="2">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" id="reg-email" class="form-input" placeholder="e.g. ramesh@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mobile Number *</label>
+                        <input type="tel" id="reg-phone" class="form-input" placeholder="10-digit number" required pattern="[0-9]{10}">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label">Password *</label>
+                        <input type="password" id="reg-password" class="form-input" placeholder="Min 6 characters" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password *</label>
+                        <input type="password" id="reg-confirm-password" class="form-input" placeholder="Repeat password" required minlength="6">
+                    </div>
+                </div>
+
+                <!-- Delivery Address -->
+                <div style="background: #F8FAFC; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1.25rem;">
+                    <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 0.75rem;">Default Delivery Address (Optional)</div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="reg-address" class="form-input" placeholder="Street / House No. / Area">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 0.5rem;">
+                        <input type="text" id="reg-city" class="form-input" placeholder="City">
+                        <input type="text" id="reg-state" class="form-input" placeholder="State">
+                        <input type="text" id="reg-pincode" class="form-input" placeholder="PIN Code" maxlength="6">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8rem; color: var(--text-secondary); cursor: pointer;">
+                        <input type="checkbox" required style="margin-top: 2px;">
+                        <span>I agree to HariMart's Conditions of Use, Privacy Notice, and Cookie Policy.</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="form-btn-primary" id="btn-register-submit">Create HariMart Account</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+                Already have an account? 
+                <a href="login.html" style="color: var(--primary); font-weight: 700;">Sign In</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('register-form');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('reg-name').value.trim();
+                const email = document.getElementById('reg-email').value.trim();
+                const phone = document.getElementById('reg-phone').value.trim();
+                const password = document.getElementById('reg-password').value;
+                const confirmPassword = document.getElementById('reg-confirm-password').value;
+                const addressLine = document.getElementById('reg-address').value.trim();
+                const city = document.getElementById('reg-city').value.trim();
+                const state = document.getElementById('reg-state').value.trim();
+                const pincode = document.getElementById('reg-pincode').value.trim();
+
+                if (password !== confirmPassword) {
+                    window.UI.showToast('Passwords do not match. Please re-enter.', 'error');
+                    return;
+                }
+
+                const submitBtn = document.getElementById('btn-register-submit');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Registering Account... ⏳';
+
+                try {
+                    const res = await window.Auth.register({
+                        name, email, phone, password, confirmPassword, addressLine, city, state, pincode, country: 'India'
+                    });
+
+                    if (res.success) {
+                        window.UI.showToast('Account created successfully! Please sign in.', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 1000);
+                    }
+                } catch (err) {
+                    window.UI.showToast(err.message || 'Registration failed. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Create HariMart Account';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

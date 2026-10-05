@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | HariMart</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .auth-page-wrap {
+            min-height: calc(100vh - 120px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 1rem;
+        }
+
+        .auth-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .demo-btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .btn-demo {
+            background-color: #F1F5F9;
+            color: var(--secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 0.6rem 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .btn-demo:hover {
+            background-color: var(--primary-soft);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-top" style="justify-content: center;">
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-badge">H</div>
+                    <div class="brand-name">Hari<span>Mart</span></div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="auth-page-wrap">
+        <div class="auth-card">
+            <h1 style="font-size: 1.6rem; color: var(--secondary); font-weight: 800; margin-bottom: 0.35rem;">Welcome Back</h1>
+            <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem;">Sign in to access your orders, cart, and wishlist</p>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Email or Mobile Number</label>
+                    <input type="text" id="login-email" class="form-input" placeholder="e.g. customer@harimart.com" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <label class="form-label" style="margin-bottom: 0;">Password</label>
+                        <a href="javascript:void(0)" onclick="window.UI.showToast('For testing, please use the 1-Click Demo buttons below.', 'info')" style="font-size: 0.75rem; color: var(--primary); font-weight: 600;">Forgot?</a>
+                    </div>
+                    <div style="position: relative;">
+                        <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                        <span id="toggle-password-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 0.9rem; color: var(--text-muted);">👁️</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="form-btn-primary" id="btn-login-submit" style="margin-top: 0.5rem;">Sign In</button>
+            </form>
+
+            <!-- 1-Click Instant Demo Credentials -->
+            <div class="demo-btn-grid">
+                <button type="button" class="btn-demo" id="demo-customer-btn">
+                    👤 Demo Customer<br><small style="font-weight: normal; color: var(--text-muted);">customer@harimart.com</small>
+                </button>
+                <button type="button" class="btn-demo" id="demo-admin-btn">
+                    🛡️ Demo Admin<br><small style="font-weight: normal; color: var(--text-muted);">admin@harimart.com</small>
+                </button>
+            </div>
+
+            <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+                Don't have a HariMart account? 
+                <a href="register.html" style="color: var(--primary); font-weight: 700;">Create Account</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('login-form');
+            const toggleBtn = document.getElementById('toggle-password-btn');
+            const passInput = document.getElementById('login-password');
+            const emailInput = document.getElementById('login-email');
+
+            // Password Toggle
+            toggleBtn.addEventListener('click', () => {
+                passInput.type = passInput.type === 'password' ? 'text' : 'password';
+            });
+
+            // Demo Fill Buttons
+            document.getElementById('demo-customer-btn').addEventListener('click', () => {
+                emailInput.value = 'customer@harimart.com';
+                passInput.value = 'customer123';
+                window.UI.showToast('Customer demo credentials filled! Click Sign In.', 'info');
+            });
+
+            document.getElementById('demo-admin-btn').addEventListener('click', () => {
+                emailInput.value = 'admin@harimart.com';
+                passInput.value = 'admin123';
+                window.UI.showToast('Admin demo credentials filled! Click Sign In.', 'info');
+            });
+
+            // Submit
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const emailOrPhone = emailInput.value.trim();
+                const password = passInput.value;
+                const submitBtn = document.getElementById('btn-login-submit');
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Verifying... ⏳';
+
+                try {
+                    const res = await window.Auth.login(emailOrPhone, password);
+                    window.UI.showToast(`Welcome back, ${res.user.name}! 👋`, 'success');
+
+                    setTimeout(() => {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const redirect = urlParams.get('redirect');
+                        if (redirect) {
+                            window.location.href = redirect;
+                        } else if (res.user.role === 'ROLE_ADMIN') {
+                            window.location.href = 'admin.html';
+                        } else {
+                            window.location.href = 'index.html';
+                        }
+                    }, 800);
+                } catch (err) {
+                    window.UI.showToast(err.message || 'Login failed. Please check your credentials.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign In';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

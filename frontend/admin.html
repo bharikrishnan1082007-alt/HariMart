@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HariMart Admin Dashboard — Management Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <div class="logo-badge" style="width:34px; height:34px; font-size:1.1rem;">H</div>
+                <div class="brand-name" style="font-size:1.3rem;">Hari<span>Mart</span></div>
+            </div>
+
+            <ul class="admin-nav">
+                <li class="admin-nav-item">
+                    <div class="admin-nav-link active" data-pane="dashboard">
+                        <span class="admin-nav-icon">📊</span>
+                        <span>Dashboard</span>
+                    </div>
+                </li>
+                <li class="admin-nav-item">
+                    <div class="admin-nav-link" data-pane="products">
+                        <span class="admin-nav-icon">🛍️</span>
+                        <span>Products</span>
+                    </div>
+                </li>
+                <li class="admin-nav-item">
+                    <div class="admin-nav-link" data-pane="categories">
+                        <span class="admin-nav-icon">🏷️</span>
+                        <span>Categories</span>
+                    </div>
+                </li>
+                <li class="admin-nav-item">
+                    <div class="admin-nav-link" data-pane="orders">
+                        <span class="admin-nav-icon">📦</span>
+                        <span>Orders</span>
+                    </div>
+                </li>
+                <li class="admin-nav-item">
+                    <div class="admin-nav-link" data-pane="users">
+                        <span class="admin-nav-icon">👥</span>
+                        <span>Users</span>
+                    </div>
+                </li>
+                <li class="admin-nav-item">
+                    <div class="admin-nav-link" data-pane="reviews">
+                        <span class="admin-nav-icon">⭐</span>
+                        <span>Reviews</span>
+                    </div>
+                </li>
+                <li class="admin-nav-item" style="margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1rem;">
+                    <a href="index.html" class="admin-nav-link">
+                        <span class="admin-nav-icon">🌐</span>
+                        <span>View Storefront</span>
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <div class="admin-nav-link" style="color: var(--accent-crimson);" onclick="window.Auth.logout()">
+                        <span class="admin-nav-icon">🚪</span>
+                        <span>Sign Out</span>
+                    </div>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            <!-- Topbar -->
+            <div class="admin-topbar">
+                <h1 class="admin-page-title" id="admin-topbar-title">Dashboard Overview</h1>
+                <div class="admin-user-pill">
+                    <div class="admin-avatar">A</div>
+                    <div style="text-align: right; line-height: 1.2;">
+                        <strong style="color: var(--secondary); font-size: 0.875rem;">Administrator</strong>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">admin@harimart.com</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 1: Dashboard Overview -->
+            <div class="admin-tab-pane active" id="pane-dashboard">
+                <!-- KPI Stat Cards -->
+                <div class="stats-cards-grid">
+                    <div class="stat-card revenue">
+                        <div class="stat-info">
+                            <span class="stat-label">Total Revenue</span>
+                            <span class="stat-val" id="stat-total-revenue">₹0.00</span>
+                        </div>
+                        <div class="stat-icon">💰</div>
+                    </div>
+                    <div class="stat-card orders">
+                        <div class="stat-info">
+                            <span class="stat-label">Total Orders</span>
+                            <span class="stat-val" id="stat-total-orders">0</span>
+                        </div>
+                        <div class="stat-icon">📦</div>
+                    </div>
+                    <div class="stat-card pending">
+                        <div class="stat-info">
+                            <span class="stat-label">Pending Orders</span>
+                            <span class="stat-val" id="stat-pending-orders">0</span>
+                        </div>
+                        <div class="stat-icon">⏳</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-label">Total Products</span>
+                            <span class="stat-val" id="stat-total-products">0</span>
+                        </div>
+                        <div class="stat-icon">🛍️</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span class="stat-label">Registered Users</span>
+                            <span class="stat-val" id="stat-total-users">0</span>
+                        </div>
+                        <div class="stat-icon">👥</div>
+                    </div>
+                    <div class="stat-card low-stock">
+                        <div class="stat-info">
+                            <span class="stat-label">Low Stock Alerts</span>
+                            <span class="stat-val" id="stat-low-stock">0</span>
+                        </div>
+                        <div class="stat-icon">⚠️</div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders Table -->
+                <div class="admin-table-card">
+                    <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="font-size: 1.1rem; color: var(--secondary);">Recent Store Orders</h3>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">Real-time database records</span>
+                    </div>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-orders-table-body">
+                            <!-- Populated via admin.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: Product Management -->
+            <div class="admin-tab-pane" id="pane-products">
+                <div class="admin-action-bar">
+                    <div class="admin-search-box">
+                        <span class="admin-search-icon">🔍</span>
+                        <input type="text" id="admin-product-search" class="admin-search-input" placeholder="Search by name, brand, or category...">
+                    </div>
+                    <button type="button" class="btn-admin-primary" id="btn-add-product-modal">
+                        <span>+</span> Add New Product
+                    </button>
+                </div>
+
+                <div class="admin-table-card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Discount</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-products-table-body">
+                            <!-- Populated via admin.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 3: Category Management -->
+            <div class="admin-tab-pane" id="pane-categories">
+                <div class="admin-action-bar">
+                    <h3 style="font-size: 1.1rem; color: var(--secondary);">Manage Categories</h3>
+                    <button type="button" class="btn-admin-primary" id="btn-add-category-modal">
+                        <span>+</span> Add New Category
+                    </button>
+                </div>
+
+                <div class="admin-table-card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Products</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-categories-table-body">
+                            <!-- Populated via admin.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 4: Order Management -->
+            <div class="admin-tab-pane" id="pane-orders">
+                <div class="admin-action-bar">
+                    <h3 style="font-size: 1.1rem; color: var(--secondary);">Customer Orders & Shipments</h3>
+                </div>
+
+                <div class="admin-table-card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Update Status</th>
+                                <th>Payment</th>
+                                <th>Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-orders-table-body">
+                            <!-- Populated via admin.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 5: User Management -->
+            <div class="admin-tab-pane" id="pane-users">
+                <div class="admin-action-bar">
+                    <h3 style="font-size: 1.1rem; color: var(--secondary);">Registered Customers & Accounts</h3>
+                </div>
+
+                <div class="admin-table-card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-table-body">
+                            <!-- Populated via admin.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 6: Review Moderation -->
+            <div class="admin-tab-pane" id="pane-reviews">
+                <div class="admin-action-bar">
+                    <h3 style="font-size: 1.1rem; color: var(--secondary);">Customer Reviews Moderation</h3>
+                </div>
+
+                <div class="admin-table-card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Customer</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-reviews-table-body">
+                            <!-- Populated via admin.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Add / Edit Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-card" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="product-modal-title">Add New Product</h3>
+                <button type="button" class="modal-close-btn" onclick="window.UI.closeModal('product-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-modal-form">
+                    <input type="hidden" id="product-modal-id">
+
+                    <div class="form-group">
+                        <label class="form-label">Product Name *</label>
+                        <input type="text" id="prod-name" class="form-input" required placeholder="e.g. Wireless Noise Cancelling Headphones">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Category *</label>
+                            <select id="prod-category" class="form-select" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Brand *</label>
+                            <input type="text" id="prod-brand" class="form-input" required placeholder="e.g. SonicPulse">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Original Price (₹) *</label>
+                            <input type="number" id="prod-price" class="form-input" step="0.01" min="1" required placeholder="4999">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Discount (%)</label>
+                            <input type="number" id="prod-discount" class="form-input" step="0.01" min="0" max="90" placeholder="15">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Available Stock *</label>
+                            <input type="number" id="prod-stock" class="form-input" min="0" required placeholder="50">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Primary Image URL *</label>
+                        <input type="url" id="prod-image" class="form-input" required placeholder="https://images.unsplash.com/...">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Additional Gallery Images (1 URL per line)</label>
+                        <textarea id="prod-extra-images" class="form-textarea" rows="2" placeholder="https://images.unsplash.com/...&#10;https://images.unsplash.com/..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <textarea id="prod-desc" class="form-textarea" rows="3" required placeholder="Detailed specifications, features, warranty..."></textarea>
+                    </div>
+
+                    <button type="submit" class="form-btn-primary">Save Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Add / Edit Modal -->
+    <div class="modal-overlay" id="category-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title" id="cat-modal-title">Add Category</h3>
+                <button type="button" class="modal-close-btn" onclick="window.UI.closeModal('category-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="category-modal-form">
+                    <input type="hidden" id="cat-modal-id">
+
+                    <div class="form-group">
+                        <label class="form-label">Category Name *</label>
+                        <input type="text" id="cat-name" class="form-input" required placeholder="e.g. Footwear & Shoes">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <input type="text" id="cat-desc" class="form-input" placeholder="Short description of category contents">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Image URL</label>
+                        <input type="url" id="cat-image" class="form-input" placeholder="https://images.unsplash.com/...">
+                    </div>
+
+                    <button type="submit" class="form-btn-primary">Save Category</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Receipt Modal -->
+    <div class="modal-overlay" id="order-receipt-modal">
+        <div class="modal-card" style="max-width: 580px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Order Receipt #<span id="receipt-order-num"></span></h3>
+                <button type="button" class="modal-close-btn" onclick="window.UI.closeModal('order-receipt-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="font-size: 0.85rem; margin-bottom: 1rem;">
+                    <strong>Customer:</strong> <span id="receipt-customer"></span><br>
+                    <strong>Address:</strong> <span id="receipt-address"></span><br>
+                    <strong>Payment:</strong> <span id="receipt-payment"></span>
+                </div>
+
+                <div style="font-weight: 700; font-size: 0.9rem; color: var(--secondary); margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.35rem;">
+                    Purchased Items:
+                </div>
+                <div id="receipt-items" style="margin-bottom: 1rem;"></div>
+
+                <div style="display: flex; justify-content: space-between; font-size: 1.15rem; font-weight: 800; border-top: 2px dashed var(--border-color); padding-top: 0.75rem; color: var(--secondary);">
+                    <span>Total Amount:</span>
+                    <span id="receipt-total">₹0.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
