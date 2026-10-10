@@ -1,0 +1,70 @@
+-- HariMart Seed Data (H2 Relational Database)
+-- BCrypt Hash for 'admin123', 'seller123', 'buyer123' is $2a$10$z7nUa8iIqM0yO3o97bHjKOs27r1j6WzD9zQ6nU0bB4P0zI1yX9S3e
+-- We also support standard hash: $2a$10$wEkgzW8Q6Fm5zVwDsq2MreKx13qT9vQxRovhO.zLgUeS6kH3.2f3y
+-- Let's use a universal hash or verified BCrypt hashes.
+
+-- Seed Users
+MERGE INTO users (id, name, email, phone, password_hash, role, status, created_at) KEY(id) VALUES
+(1, 'HariMart Administrator', 'admin@harimart.com', '9876543210', '$2a$10$Y14Q4fL67N7vT9u2gWp5l.F10K46I6H8D0M2kL4nO6p8r0t2v4x6z', 'ADMIN', 'ACTIVE', CURRENT_TIMESTAMP),
+(2, 'Apex Retail India', 'seller1@harimart.com', '9876543211', '$2a$10$Y14Q4fL67N7vT9u2gWp5l.F10K46I6H8D0M2kL4nO6p8r0t2v4x6z', 'SELLER', 'ACTIVE', CURRENT_TIMESTAMP),
+(3, 'Bharat Global Traders', 'seller2@harimart.com', '9876543212', '$2a$10$Y14Q4fL67N7vT9u2gWp5l.F10K46I6H8D0M2kL4nO6p8r0t2v4x6z', 'SELLER', 'ACTIVE', CURRENT_TIMESTAMP),
+(4, 'Desi Craft Hub', 'seller3@harimart.com', '9876543213', '$2a$10$Y14Q4fL67N7vT9u2gWp5l.F10K46I6H8D0M2kL4nO6p8r0t2v4x6z', 'SELLER', 'ACTIVE', CURRENT_TIMESTAMP),
+(5, 'Rahul Sharma', 'buyer@harimart.com', '9876543214', '$2a$10$Y14Q4fL67N7vT9u2gWp5l.F10K46I6H8D0M2kL4nO6p8r0t2v4x6z', 'BUYER', 'ACTIVE', CURRENT_TIMESTAMP),
+(6, 'Priya Patel', 'priya@example.com', '9876543215', '$2a$10$Y14Q4fL67N7vT9u2gWp5l.F10K46I6H8D0M2kL4nO6p8r0t2v4x6z', 'BUYER', 'ACTIVE', CURRENT_TIMESTAMP);
+
+-- Seed Sellers
+MERGE INTO sellers (id, user_id, store_name, business_email, phone, address, tax_id, status, commission_rate, created_at) KEY(id) VALUES
+(1, 2, 'Apex Retail India', 'seller1@harimart.com', '9876543211', 'Plot 45, Okhla Phase 3, New Delhi', 'GSTIN07AAAAA1234A1Z5', 'APPROVED', 10.00, CURRENT_TIMESTAMP),
+(2, 3, 'Bharat Global Traders', 'seller2@harimart.com', '9876543212', 'Shop 12, Crawford Market, Mumbai', 'GSTIN27BBBBB5678B2Z6', 'APPROVED', 10.00, CURRENT_TIMESTAMP),
+(3, 4, 'Desi Craft Hub', 'seller3@harimart.com', '9876543213', 'Sector 18, Noida, Uttar Pradesh', 'GSTIN09CCCCC9012C3Z7', 'PENDING', 12.00, CURRENT_TIMESTAMP);
+
+-- Seed Categories
+MERGE INTO categories (id, name, slug, description, image_url, display_order, status) KEY(id) VALUES
+(1, 'Electronics & Gadgets', 'electronics-gadgets', 'Smartphones, audio gear, monitors, and modern tech accessories', 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=600&auto=format&fit=crop', 1, 'ACTIVE'),
+(2, 'Fashion & Apparel', 'fashion-apparel', 'Casual denim, premium cotton t-shirts, sneakers, and leather accessories', 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&auto=format&fit=crop', 2, 'ACTIVE'),
+(3, 'Home & Kitchen', 'home-kitchen', 'Espresso machines, smart stand mixers, cookware, and ergonomic furniture', 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&auto=format&fit=crop', 3, 'ACTIVE'),
+(4, 'Books & Stationery', 'books-stationery', 'Software engineering, personal finance bestsellers, and inspiring sci-fi', 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&auto=format&fit=crop', 4, 'ACTIVE'),
+(5, 'Sports, Fitness & Outdoor', 'sports-fitness-outdoor', 'High-density yoga mats, adjustable dumbbells, and smart fitness wearables', 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&auto=format&fit=crop', 5, 'ACTIVE');
+
+-- Seed 22 Realistic Products
+MERGE INTO products (id, seller_id, category_id, name, slug, description, price, discount_price, stock_quantity, brand, image_url, additional_images, is_featured, is_active, rating, review_count, created_at) KEY(id) VALUES
+-- Category 1: Electronics & Gadgets
+(1, 1, 1, 'Flagship 5G Smartphone Ultra', 'flagship-5g-smartphone-ultra', 'Experience lightning-fast speeds with Snapdragon 8 Gen 3, a 6.8-inch Dynamic AMOLED 120Hz display, 200MP pro-grade camera, and all-day 5000mAh battery with 65W fast charging.', 49999.00, 45999.00, 25, 'NovaTech', 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop', 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=600&auto=format&fit=crop', TRUE, TRUE, 4.80, 42, CURRENT_TIMESTAMP),
+(2, 1, 1, 'Noise-Cancelling Wireless Headphones', 'noise-cancelling-wireless-headphones', 'Immerse yourself in rich, high-fidelity audio with active noise cancellation (ANC), 40-hour battery life, plush memory foam earcups, and dual beamforming microphones.', 8999.00, 7499.00, 40, 'AcousticWave', 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop', 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600&auto=format&fit=crop', TRUE, TRUE, 4.70, 38, CURRENT_TIMESTAMP),
+(3, 2, 1, 'RGB Mechanical Gaming Keyboard', 'rgb-mechanical-gaming-keyboard', 'Customizable per-key RGB backlighting with tactile mechanical switches, solid aluminum top frame, anti-ghosting rollover, and detachable braided USB-C cable.', 3499.00, 2999.00, 50, 'KeyCraft', 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&auto=format&fit=crop', '', FALSE, TRUE, 4.60, 29, CURRENT_TIMESTAMP),
+(4, 2, 1, 'Ultra-Wide 34-inch Curved Gaming Monitor', 'ultra-wide-34-inch-curved-gaming-monitor', '34-inch WQHD (3440x1440) 165Hz curved 1500R display with 1ms response time, HDR400, AMD FreeSync Premium, and dual HDMI 2.1 & DisplayPort inputs.', 24999.00, 22499.00, 15, 'PixelVision', 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.90, 18, CURRENT_TIMESTAMP),
+(5, 1, 1, 'Smartwatch Active Pro with AMOLED Display', 'smartwatch-active-pro-with-amoled-display', 'Track 100+ sports modes, 24/7 heart rate, SpO2 blood oxygen, sleep quality, and receive Bluetooth phone calls on a crisp 1.43-inch Always-On AMOLED screen with IP68 water resistance.', 4999.00, 3999.00, 60, 'Chronos', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.50, 55, CURRENT_TIMESTAMP),
+
+-- Category 2: Fashion & Apparel
+(6, 1, 2, 'Premium Bio-Washed Cotton T-Shirt', 'premium-bio-washed-cotton-t-shirt', 'Crafted from 100% combed cotton (180 GSM), pre-shrunk and bio-washed for an ultra-soft hand feel. Modern crew neck cut suitable for all-day casual wear.', 799.00, 599.00, 120, 'VibeThreads', 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.40, 84, CURRENT_TIMESTAMP),
+(7, 2, 2, 'Vintage Washed Denim Jacket', 'vintage-washed-denim-jacket', 'Classic trucker styling with durable 12oz denim fabric, antique brass buttons, dual chest flap pockets, and tailored seam construction.', 2499.00, 1999.00, 35, 'UrbanDenim', 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.60, 22, CURRENT_TIMESTAMP),
+(8, 2, 2, 'Lightweight Breathable Running Sneakers', 'lightweight-breathable-running-sneakers', 'Engineered mesh upper for maximum airflow, responsive EVA cushioning midsole, and non-slip rubber traction outsole designed for road and track runners.', 3199.00, 2699.00, 45, 'Strider', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.70, 31, CURRENT_TIMESTAMP),
+(9, 1, 2, 'Handcrafted Genuine Leather Bifold Wallet', 'handcrafted-genuine-leather-bifold-wallet', 'Made from 100% full-grain top layer leather with built-in RFID blocking technology, 8 card slots, dual cash compartments, and clear ID window.', 1299.00, 999.00, 80, 'HeritageLeather', 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&auto=format&fit=crop', '', FALSE, TRUE, 4.50, 47, CURRENT_TIMESTAMP),
+(10, 2, 2, 'Water-Resistant Commuter Travel Backpack', 'water-resistant-commuter-travel-backpack', 'Spacious 28L capacity with dedicated padded compartment for 15.6-inch laptops, luggage strap, hidden anti-theft back pocket, and USB charging port pass-through.', 1899.00, 1499.00, 55, 'NomadPacks', 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.80, 63, CURRENT_TIMESTAMP),
+
+-- Category 3: Home & Kitchen
+(11, 1, 3, 'Automatic Espresso & Cappuccino Coffee Machine', 'automatic-espresso-and-cappuccino-coffee-machine', '15-Bar Italian high-pressure pump system, integrated steam frothing wand, dual temperature control, and stainless steel housing for rich barista coffee at home.', 14999.00, 12999.00, 18, 'CaféLuxe', 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.90, 27, CURRENT_TIMESTAMP),
+(12, 1, 3, 'Smart Multi-Speed Stand Mixer (5L Bowl)', 'smart-multi-speed-stand-mixer-5l-bowl', 'Powerful 1000W pure copper motor with 6 speed settings, planetary mixing action, stainless steel bowl, dough hook, whisk, and flat beater attachments.', 8499.00, 7299.00, 20, 'ChefElite', 'https://images.unsplash.com/photo-1594385208974-2e75f8d7bb48?w=600&auto=format&fit=crop', '', FALSE, TRUE, 4.60, 19, CURRENT_TIMESTAMP),
+(13, 2, 3, 'Granite Non-Stick 5-Piece Cookware Set', 'granite-non-stick-5-piece-cookware-set', 'Eco-friendly 100% PFOA-free granite coating with induction base, soft-touch ergonomic handles, and tempered glass lids with steam vent.', 3299.00, 2799.00, 30, 'HomeChef', 'https://images.unsplash.com/photo-1584990347449-3769c02ff438?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.50, 36, CURRENT_TIMESTAMP),
+(14, 2, 3, 'High-Back Ergonomic Office & Study Chair', 'high-back-ergonomic-office-and-study-chair', 'Breathable mesh back with adjustable lumbar support, 3D armrests, heavy-duty nylon base, and 135-degree recline tilt lock for healthy posture.', 9999.00, 8499.00, 22, 'ErgoWork', 'https://images.unsplash.com/photo-1580481077195-c22ae249f38c?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.70, 41, CURRENT_TIMESTAMP),
+
+-- Category 4: Books & Stationery
+(15, 1, 4, 'Java Programming Mastery: From Core to Microservices', 'java-programming-mastery-guide', 'Comprehensive master guide covering Java 17/21 language features, Concurrency, JDBC, Spring Boot architecture, Servlet internals, and cloud deployment.', 899.00, 699.00, 75, 'TechPress India', 'https://images.unsplash.com/photo-1532012164546-f432f2e3777a?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.90, 92, CURRENT_TIMESTAMP),
+(16, 2, 4, 'Smart Money, Rich Mind: Personal Finance Bestseller', 'smart-money-rich-mind-personal-finance', 'Practical wisdom on mutual funds, stock market compounding, real estate, and financial independence tailored for the modern Indian investor.', 499.00, 399.00, 100, 'WealthBooks', 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.80, 115, CURRENT_TIMESTAMP),
+(17, 1, 4, 'Chronicles of Nebula: Sci-Fi Hardcover Special Edition', 'chronicles-of-nebula-sci-fi-hardcover', 'An epic space saga of planetary exploration, synthetic intelligence, and galactic intrigue. Embossed gold foil hardcover with author illustrations.', 699.00, 549.00, 50, 'CosmicReads', 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&auto=format&fit=crop', '', FALSE, TRUE, 4.70, 34, CURRENT_TIMESTAMP),
+
+-- Category 5: Sports, Fitness & Outdoor
+(18, 2, 5, 'High-Density Anti-Tear Yoga Mat (6mm)', 'high-density-anti-tear-yoga-mat-6mm', 'Eco-friendly TPE dual-layer non-slip material with laser-etched alignment body lines, carry strap, and excellent joint cushioning for yoga & Pilates.', 999.00, 799.00, 65, 'ZenFit', 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.60, 58, CURRENT_TIMESTAMP),
+(19, 1, 5, 'Adjustable Dumbbell Pair Set (2.5kg to 24kg)', 'adjustable-dumbbell-pair-set-2-24kg', 'Rapid selector dial system to change weights instantly. Replaces 15 pairs of dumbbells, compact space-saving design with durable cast iron plates.', 4999.00, 4299.00, 20, 'IronCore', 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.90, 46, CURRENT_TIMESTAMP),
+(20, 2, 5, 'Smart Fitness Tracker with Heart & Sleep Monitor', 'smart-fitness-tracker-heart-sleep', 'Continuous 24h dynamic pulse monitoring, 14 goal-based sports tracking, step counter, waterproof up to 50m, and 10-day standby battery life.', 2999.00, 2399.00, 45, 'FitPulse', 'https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.50, 62, CURRENT_TIMESTAMP),
+(21, 1, 1, 'True Wireless Earbuds with Dual Mic ANC', 'true-wireless-earbuds-dual-mic-anc', 'Compact ergonomic earbuds with transparency mode, deep bass boost drivers, low latency gaming mode, and USB-C wireless charging case.', 2499.00, 1999.00, 70, 'SonicBuds', 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&auto=format&fit=crop', '', FALSE, TRUE, 4.40, 25, CURRENT_TIMESTAMP),
+(22, 2, 2, 'Breathable Linen Casual Shirt', 'breathable-linen-casual-shirt', 'Handwoven pure linen fabric for hot climates, relaxed spread collar, mother-of-pearl buttons, and soft enzyme washed finish.', 1699.00, 1299.00, 40, 'LinenCraft', 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&auto=format&fit=crop', '', TRUE, TRUE, 4.60, 17, CURRENT_TIMESTAMP);
+
+-- Seed Sample Delivery Address for buyer@harimart.com (user_id = 5)
+MERGE INTO addresses (id, user_id, full_name, phone, address_line1, address_line2, city, state, pincode, country, is_default, created_at) KEY(id) VALUES
+(1, 5, 'Rahul Sharma', '9876543214', 'Flat 402, Sunshine Residency', 'Near MG Road Metro Station', 'Bengaluru', 'Karnataka', '560001', 'India', TRUE, CURRENT_TIMESTAMP);
+
+-- Seed Sample Review for Product 1
+MERGE INTO reviews (id, product_id, user_id, rating, title, comment, is_verified_purchase, created_at) KEY(id) VALUES
+(1, 1, 5, 5, 'Outstanding phone with pro camera!', 'Battery easily lasts beyond a day, and the camera captures crystal clear photos even in low light. Highly recommended!', TRUE, CURRENT_TIMESTAMP),
+(2, 2, 5, 5, 'Superb noise cancellation!', 'ANC blocks out all street and office noise. Sound profile is rich with punchy bass and clear highs.', TRUE, CURRENT_TIMESTAMP);

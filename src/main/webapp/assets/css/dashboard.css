@@ -1,0 +1,231 @@
+/* Dashboard Styling for HariMart (Seller Central & Admin Console) */
+
+.dashboard-container {
+    max-width: 1320px;
+    margin: 2rem auto;
+    padding: 0 1.25rem;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.dashboard-title h2 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--navy-800);
+}
+
+.dashboard-title p {
+    color: var(--slate-500);
+    font-size: 0.95rem;
+}
+
+/* Metric KPI Cards */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.metric-card {
+    background-color: #ffffff;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    border: 1px solid var(--slate-200);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    transition: transform var(--transition-fast);
+}
+
+.metric-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.metric-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.metric-icon-box.amber {
+    background-color: var(--amber-100);
+    color: var(--amber-500);
+}
+
+.metric-icon-box.blue {
+    background-color: #dbeafe;
+    color: var(--navy-600);
+}
+
+.metric-icon-box.emerald {
+    background-color: var(--emerald-100);
+    color: var(--emerald-600);
+}
+
+.metric-icon-box.rose {
+    background-color: var(--rose-100);
+    color: var(--rose-600);
+}
+
+.metric-info h6 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--slate-500);
+    letter-spacing: 0.04em;
+}
+
+.metric-info h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-top: 0.2rem;
+}
+
+/* Data Tables */
+.data-card {
+    background-color: #ffffff;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--slate-200);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+}
+
+.data-card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--slate-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--ivory-50);
+}
+
+.data-card-header h4 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--navy-800);
+}
+
+.data-table-wrapper {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.92rem;
+}
+
+.data-table th {
+    background-color: var(--slate-100);
+    color: var(--slate-700);
+    font-weight: 600;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--slate-200);
+}
+
+.data-table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--slate-100);
+    color: var(--slate-700);
+    vertical-align: middle;
+}
+
+.data-table tr:hover td {
+    background-color: var(--ivory-50);
+}
+
+/* Status Badges */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-full);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-pill.active, .status-pill.approved, .status-pill.delivered, .status-pill.success {
+    background-color: var(--emerald-100);
+    color: var(--emerald-600);
+}
+
+.status-pill.pending, .status-pill.placed, .status-pill.confirmed {
+    background-color: var(--amber-100);
+    color: var(--amber-500);
+}
+
+.status-pill.shipped, .status-pill.packed {
+    background-color: #dbeafe;
+    color: var(--navy-600);
+}
+
+.status-pill.inactive, .status-pill.suspended, .status-pill.cancelled, .status-pill.failed {
+    background-color: var(--rose-100);
+    color: var(--rose-600);
+}
+
+/* Actions & Forms */
+.btn-action-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--slate-300);
+    background-color: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all var(--transition-fast);
+}
+
+.btn-action-sm:hover {
+    background-color: var(--slate-100);
+    border-color: var(--slate-400);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    color: var(--slate-700);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--slate-300);
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color var(--transition-fast);
+}
+
+.form-control:focus {
+    border-color: var(--navy-600);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}

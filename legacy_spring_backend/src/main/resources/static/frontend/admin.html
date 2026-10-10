@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HariMart | Admin Dashboard</title>
+
+    <link rel="stylesheet" href="/frontend/css/style.css">
+    <link rel="stylesheet" href="/frontend/css/admin.css">
+    <link rel="stylesheet" href="/frontend/css/responsive.css">
+</head>
+
+<body>
+<div class="admin-layout">
+
+    <aside class="admin-sidebar">
+        <div class="admin-brand">
+            <div class="logo-badge">H</div>
+            <div class="brand-name">Hari<span>Mart</span></div>
+        </div>
+
+        <nav>
+            <ul class="admin-nav">
+                <li><a href="#dashboard" class="admin-nav-link active" data-pane="dashboard">📊 Dashboard</a></li>
+                <li><a href="#products" class="admin-nav-link" data-pane="products">🛍️ Products</a></li>
+                <li><a href="#categories" class="admin-nav-link" data-pane="categories">🏷️ Categories</a></li>
+                <li><a href="#orders" class="admin-nav-link" data-pane="orders">📦 Orders</a></li>
+                <li><a href="#users" class="admin-nav-link" data-pane="users">👥 Users</a></li>
+                <li><a href="#reviews" class="admin-nav-link" data-pane="reviews">⭐ Reviews</a></li>
+                <li><a href="/frontend/index.html" class="admin-nav-link">🌐 View Store</a></li>
+                <li><button type="button" id="admin-logout" class="admin-nav-link">🚪 Sign Out</button></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-topbar">
+            <h1 id="admin-topbar-title">Dashboard Overview</h1>
+            <div class="admin-user-pill">
+                <strong>Administrator</strong>
+            </div>
+        </header>
+
+        <section id="pane-dashboard" class="admin-tab-pane active">
+            <div class="stats-cards-grid">
+                <article class="stat-card">
+                    <span>Total Revenue</span>
+                    <strong id="stat-total-revenue">₹0.00</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Total Orders</span>
+                    <strong id="stat-total-orders">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Pending Orders</span>
+                    <strong id="stat-pending-orders">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Total Products</span>
+                    <strong id="stat-total-products">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Registered Users</span>
+                    <strong id="stat-total-users">0</strong>
+                </article>
+                <article class="stat-card">
+                    <span>Low Stock</span>
+                    <strong id="stat-low-stock">0</strong>
+                </article>
+            </div>
+
+            <div class="admin-table-card">
+                <h2>Recent Orders</h2>
+                <div class="table-scroll">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>Order #</th><th>Customer</th><th>Date</th>
+                            <th>Status</th><th>Amount</th><th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="recent-orders-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="pane-products" class="admin-tab-pane" hidden>
+            <div class="admin-action-bar">
+                <input id="admin-product-search" type="search" placeholder="Search products...">
+                <button type="button" id="btn-add-product-modal">+ Add Product</button>
+            </div>
+            <div class="admin-table-card table-scroll">
+                <table class="admin-table">
+                    <thead>
+                    <tr><th>Product</th><th>Category</th><th>Price</th><th>Discount</th><th>Stock</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="admin-products-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="pane-categories" class="admin-tab-pane" hidden>
+            <div class="admin-action-bar">
+                <h2>Categories</h2>
+                <button type="button" id="btn-add-category-modal">+ Add Category</button>
+            </div>
+            <div class="admin-table-card table-scroll">
+                <table class="admin-table">
+                    <thead>
+                    <tr><th>Category</th><th>Description</th><th>Products</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="admin-categories-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="pane-orders" class="admin-tab-pane" hidden>
+            <h2>Customer Orders</h2>
+            <div class="admin-table-card table-scroll">
+                <table class="admin-table">
+                    <thead>
+                    <tr><th>Order #</th><th>Customer</th><th>Date</th><th>Total</th><th>Update Status</th><th>Payment</th><th>Receipt</th></tr>
+                    </thead>
+                    <tbody id="admin-orders-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="pane-users" class="admin-tab-pane" hidden>
+            <h2>Registered Customers</h2>
+            <div class="admin-table-card table-scroll">
+                <table class="admin-table">
+                    <thead>
+                    <tr><th>User ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="admin-users-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="pane-reviews" class="admin-tab-pane" hidden>
+            <h2>Customer Reviews</h2>
+            <div class="admin-table-card table-scroll">
+                <table class="admin-table">
+                    <thead>
+                    <tr><th>Product</th><th>Customer</th><th>Rating</th><th>Comment</th><th>Date</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="admin-reviews-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Product modal -->
+<div class="modal-overlay" id="product-modal" hidden>
+    <div class="modal-card">
+        <h2 id="product-modal-title">Add Product</h2>
+        <button type="button" onclick="window.UI?.closeModal('product-modal')">Close</button>
+        <form id="product-modal-form">
+            <input type="hidden" id="product-modal-id">
+            <label>Product Name <input id="prod-name" required></label>
+            <label>Category <select id="prod-category" required></select></label>
+            <label>Brand <input id="prod-brand" required></label>
+            <label>Price <input type="number" id="prod-price" min="1" step="0.01" required></label>
+            <label>Discount (%) <input type="number" id="prod-discount" min="0" max="90"></label>
+            <label>Stock <input type="number" id="prod-stock" min="0" required></label>
+            <label>Image URL <input type="url" id="prod-image" required></label>
+            <label>Additional Images <textarea id="prod-extra-images"></textarea></label>
+            <label>Description <textarea id="prod-desc" required></textarea></label>
+            <button type="submit">Save Product</button>
+        </form>
+    </div>
+</div>
+
+<!-- Category modal -->
+<div class="modal-overlay" id="category-modal" hidden>
+    <div class="modal-card">
+        <h2 id="cat-modal-title">Add Category</h2>
+        <button type="button" onclick="window.UI?.closeModal('category-modal')">Close</button>
+        <form id="category-modal-form">
+            <input type="hidden" id="cat-modal-id">
+            <label>Category Name <input id="cat-name" required></label>
+            <label>Description <input id="cat-desc"></label>
+            <label>Image URL <input type="url" id="cat-image"></label>
+            <button type="submit">Save Category</button>
+        </form>
+    </div>
+</div>
+
+<!-- Receipt modal -->
+<div class="modal-overlay" id="order-receipt-modal" hidden>
+    <div class="modal-card">
+        <h2>Order Receipt #<span id="receipt-order-num"></span></h2>
+        <button type="button" onclick="window.UI?.closeModal('order-receipt-modal')">Close</button>
+        <p>Customer: <span id="receipt-customer"></span></p>
+        <p>Address: <span id="receipt-address"></span></p>
+        <p>Payment: <span id="receipt-payment"></span></p>
+        <div id="receipt-items"></div>
+        <strong>Total: <span id="receipt-total">₹0.00</span></strong>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/ui.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/admin.js"></script>
+
+<script>
+document.querySelectorAll("[data-pane]").forEach(link => {
+    link.addEventListener("click", event => {
+        event.preventDefault();
+
+        const paneName = link.dataset.pane;
+        document.querySelectorAll(".admin-tab-pane").forEach(pane => {
+            pane.hidden = pane.id !== "pane-" + paneName;
+            pane.classList.toggle("active", !pane.hidden);
+        });
+
+        document.querySelectorAll("[data-pane]").forEach(item => {
+            item.classList.toggle("active", item === link);
+        });
+
+        const title = document.getElementById("admin-topbar-title");
+        if (title) {
+            title.textContent = link.textContent.trim();
+        }
+    });
+});
+
+document.getElementById("admin-logout")?.addEventListener("click", () => {
+    if (window.Auth && typeof window.Auth.logout === "function") {
+        window.Auth.logout();
+    } else {
+        window.location.href = "/frontend/login.html";
+    }
+});
+</script>
+
+</body>
+</html>
